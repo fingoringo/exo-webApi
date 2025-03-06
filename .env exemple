@@ -1,0 +1,5 @@
+NODE_ENV="dev";
+PORT="4848";
+
+MONGO_URI="mongodb://localhost:27017/Products"
+JWT_SECRET= "supersecret"
