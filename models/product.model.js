@@ -3,13 +3,17 @@ import products from "../db/product.db.js";
 
 const productModel = {
 
-    find: async ({ offset = 0, limit = 10 }) => {
-        const product = await products.find().skip(offset).limit(limit).lean();
-        return product
+    find: async () => {
+        // const product = await products.find()
+        // console.log(product);
+        
+        // return product
+        
+    
     },
 
     findById: async (id) => {
-        const product = await products.findById(id).lean();
+        const product = await products.findById(id)
         return product
     },
 

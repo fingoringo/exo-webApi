@@ -15,22 +15,25 @@ const productController = {
 
     addProduct: async function (req, res) {
         const { name, ean, quantity, category, description } = req.body;
-        if (!name || !ean || !quantity || !category ) {
-            res.status(400).json('Name and price required');
+        if (!name || !ean || !quantity || !category) {
+            res.status(400).json('Name, ean, quantity and category required');
         };
         try {
-            const lastProduct = await productModel.findById().sort({ id: - 1 });
-            const newId = lastProduct ? lastProduct.id + 1 : 1;
+            const lastProduct = await productModel.find().sort({ id: - 1 }).exec();
+            const newId = lastProduct.length ? lastProduct[0].id + 1 : 1;
 
-            const newProduct = new productModel({ ...req.body, id: newId })
-            await newProduct.save();
-
-            res.status(201).json(`newProduct, ${newProduct}`)
+            const newProduct = await productModel.add({ id: newId, name, ean, quantity, category, description })
+            
+            res.location(`/api/product/${newProduct.id}`)
+           
+            res.status(201).json(newProduct)
         } catch (error) {
+            console.log(error);
+
             res.status(500).json('Failed to add the product')
         }
-        }
-        
+    }
+
 
     // updateProduct: function (req, res) {
     //     const { id } = req.params;
